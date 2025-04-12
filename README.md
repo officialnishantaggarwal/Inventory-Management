@@ -15,17 +15,17 @@
 - Confirm and cancel shipping.
 - Track and update the Shipping status and other info.
 
-#### 3. Service Discovery:
+#### 4. Service Discovery:
 - Centralized service registry using **Netflix Eureka** for service discovery and registration.
 
-#### 4. API Gateway:
+#### 5. API Gateway:
 - Single entry point for all microservices.
 - Simplifies and centralizes request routing.
 
-#### 5. Inter-service Communication:
+#### 6. Inter-service Communication:
 - Seamless communication between services using **OpenFeign clients**.
 
-#### 6. Fault Tolerance:
+#### 7. Fault Tolerance:
 - Implemented **Resilience4j** for circuit breaker, retry mechanisms, and resilience in microservice communication.
 
 
