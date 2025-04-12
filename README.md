@@ -11,10 +11,6 @@
 - Create and cancel orders.
 - Automatically adjust product quantities based on order actions (reduce on order creation, restore on cancellation).
 
-#### 2. Order Service:
-- Create and cancel orders.
-- Automatically adjust product quantities based on order actions (reduce on order creation, restore on cancellation).
-
 #### 3. Service Discovery:
 - Centralized service registry using **Netflix Eureka** for service discovery and registration.
 
