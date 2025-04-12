@@ -25,18 +25,16 @@ public class ShippingService {
 
         // Create a new Shipping entity and set initial values
         Shipping shipping = new Shipping();
-        shipping.setOrderID(orderID);
+        shipping.setOrderId(orderID);
         shipping.setShippingStatus(ShippingStatus.PENDING);
         shipping.setTrackingNumber(UUID.randomUUID().toString());
 
-        // Save the initial shipping entity
         Shipping savedShipping = shippingRepository.save(shipping);
 
         // Simulate shipping status update to SHIPPED
         savedShipping.setShippingStatus(ShippingStatus.SHIPPED);
         Shipping updatedShipping = shippingRepository.save(savedShipping);
 
-        // Map Shipping entity to ShippingResponseDTO before returning
         return modelMapper.map(updatedShipping, ShippingResponseDto.class);
     }
 
@@ -44,12 +42,9 @@ public class ShippingService {
 
         log.info("Cancel shipping for order: {}", orderId);
 
-        // Create a new Shipping entity and set initial values
-        Shipping shipping = shippingRepository.findByOrderId(orderId)
-                .orElseThrow(()-> new RuntimeException("Shipment for Order ID not found"));
+        Shipping shipping = shippingRepository.findByOrderId(orderId);
         shipping.setShippingStatus(ShippingStatus.CANCELLED);
 
-        // Save the initial shipping entity
         Shipping savedShipping = shippingRepository.save(shipping);
 
         return "Shipment for Order with ID: " + orderId + " has been cancelled successfully, and stocks are restored.";

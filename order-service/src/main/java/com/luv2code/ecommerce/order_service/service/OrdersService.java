@@ -64,7 +64,10 @@ public class OrdersService {
         // Confirm shipping via shipping service
         ShippingResponseDto shipping = shippingOpenFeignClient.confirmShipping(savedOrder.getId());
         log.info("Shipping confirmed: {}", shipping);
-        return modelMapper.map(savedOrder, OrderRequestDto.class);
+        savedOrder.setOrderStatus(OrderStatus.SHIPPED);
+        Orders shippedOrder = ordersRepository.save(savedOrder);
+
+        return modelMapper.map(shippedOrder, OrderRequestDto.class);
     }
 
     public OrderRequestDto createOrderFallback(OrderRequestDto orderRequestDto, Throwable throwable) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/status")
 @RequiredArgsConstructor
 public class ShippingController {
+
     private final ShippingService shippingService;
 
     @PostMapping("/confirm/{orderId}")

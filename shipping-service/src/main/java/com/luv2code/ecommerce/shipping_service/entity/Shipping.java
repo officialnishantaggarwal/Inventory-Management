@@ -1,9 +1,6 @@
 package com.luv2code.ecommerce.shipping_service.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -18,8 +15,9 @@ public class Shipping {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long orderID;
+    private Long orderId;
 
+    @Enumerated(EnumType.STRING)
     private ShippingStatus shippingStatus;
 
     private String trackingNumber;
