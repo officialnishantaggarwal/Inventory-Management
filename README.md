@@ -11,7 +11,7 @@
 - Create and cancel orders.
 - Automatically adjust product quantities based on order actions (reduce on order creation, restore on cancellation).
 
-- #### 3. Shipping Service:
+#### 3. Shipping Service:
 - Confirm and cancel shipping.
 - Track and update the Shipping status and other info.
 
