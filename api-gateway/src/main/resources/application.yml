@@ -21,6 +21,12 @@ spring:
           filters:
             - StripPrefix=2
             - AddRequestHeader=X-Custom-Header, Nishant
+        - id: shipping-service
+          uri: lb://SHIPPING-SERVICE
+          predicates:
+            - Path=/api/v1/shipping/**
+          filters:
+            - StripPrefix=2
 eureka:
   client:
     service-url:

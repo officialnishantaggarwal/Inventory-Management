@@ -1,7 +1,9 @@
 package com.luv2code.ecommerce.order_service.service;
 
 import com.luv2code.ecommerce.order_service.clients.InventoryOpenFeignClient;
+import com.luv2code.ecommerce.order_service.clients.ShippingOpenFeignClient;
 import com.luv2code.ecommerce.order_service.dto.OrderRequestDto;
+import com.luv2code.ecommerce.order_service.dto.ShippingResponseDto;
 import com.luv2code.ecommerce.order_service.entity.OrderItem;
 import com.luv2code.ecommerce.order_service.entity.OrderStatus;
 import com.luv2code.ecommerce.order_service.entity.Orders;
@@ -15,6 +17,7 @@ import org.aspectj.weaver.ast.Or;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -28,6 +31,7 @@ public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final ModelMapper modelMapper;
     private final InventoryOpenFeignClient inventoryOpenFeignClient;
+    private final ShippingOpenFeignClient shippingOpenFeignClient;
 
     public List<OrderRequestDto> getAllOrders() {
         log.info("Fetching all Orders");
@@ -57,6 +61,9 @@ public class OrdersService {
         orders.setOrderStatus(OrderStatus.CONFIRMED);
         Orders savedOrder = ordersRepository.save(orders);
 
+        // Confirm shipping via shipping service
+        ShippingResponseDto shipping = shippingOpenFeignClient.confirmShipping(savedOrder.getId());
+        log.info("Shipping confirmed: {}", shipping);
         return modelMapper.map(savedOrder, OrderRequestDto.class);
     }
 
@@ -64,5 +71,27 @@ public class OrdersService {
         log.error("Fallback Occurred due to : {}", throwable.getMessage());
 
         return new OrderRequestDto();
+    }
+
+    @Transactional
+    public String cancelOrder(Long orderId) {
+        Orders order = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
+
+        if (order.getOrderStatus() == OrderStatus.CANCELLED) {
+            throw new RuntimeException("Order is already cancelled");
+        }
+
+        // Call Inventory Service to restore stocks
+        inventoryOpenFeignClient.restoreStocks(modelMapper.map(order, OrderRequestDto.class));
+
+        // Update order status after cancelling
+        order.setOrderStatus(OrderStatus.CANCELLED);
+        Orders savedOrder = ordersRepository.save(order);
+
+        // Cancel shipping via shipping service
+        String shippingCancelled = shippingOpenFeignClient.cancelShipping(savedOrder.getId());
+        log.info("Shipping cancelled: {}", shippingCancelled);
+        return shippingCancelled;
     }
 }

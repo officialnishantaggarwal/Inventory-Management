@@ -56,4 +56,19 @@ public class ProductService {
         }
         return totalPrice;
     }
+
+    @Transactional
+    public void restoreStocks(OrderRequestDto orderRequestDTO) {
+        for (OrderRequestItemDto orderRequestItemDTO : orderRequestDTO.getItems()) {
+            Long productId = orderRequestItemDTO.getProductId();
+            Integer quantity = orderRequestItemDTO.getQuantity();
+
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
+
+            // Restoring the stocks after canceling the order
+            product.setStock(product.getStock() + quantity);
+            productRepository.save(product);
+        }
+    }
 }
