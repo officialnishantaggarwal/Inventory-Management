@@ -42,7 +42,8 @@ public class ShippingService {
 
         log.info("Cancel shipping for order: {}", orderId);
 
-        Shipping shipping = shippingRepository.findByOrderId(orderId);
+        Shipping shipping = shippingRepository.findByOrderId(orderId)
+                .orElseThrow(()-> new RuntimeException("Shipping info not found with order id: "+orderId));
         shipping.setShippingStatus(ShippingStatus.CANCELLED);
 
         Shipping savedShipping = shippingRepository.save(shipping);
