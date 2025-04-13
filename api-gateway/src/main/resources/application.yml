@@ -1,3 +1,5 @@
+jwt:
+    secretKey: fkjdhkfsjlnrwlkntlrithrennlknlfnngfnsnflksnnfsdjn
 spring:
   application:
     name: api-gateway
@@ -14,6 +16,13 @@ spring:
           filters:
             - StripPrefix=2
 #            - RedirectTo=302, http://youtube.com
+            - name: LoggingOrdersFilter
+            - name: Authentication
+              args:
+                enabled: true
+#            - name: Authoriation
+#              args:
+#                allowedRoles: ADMIN,SUPER_ADMIN
         - id: inventory-service
           uri: lb://INVENTORY-SERVICE
           predicates:
@@ -21,6 +30,9 @@ spring:
           filters:
             - StripPrefix=2
             - AddRequestHeader=X-Custom-Header, Nishant
+            - name: Authentication
+              args:
+                enabled: false
         - id: shipping-service
           uri: lb://SHIPPING-SERVICE
           predicates:
