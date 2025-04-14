@@ -30,12 +30,18 @@
 
 #### 8. Config-Server:
 - Implemeted Centralized Configuration Server using Github
+- Integrated Spring Cloud Config Server for managing service configurations.
+- Externalized configurations stored on GitHub for versioning and maintainability.
 
-#### 9. Request Tracing:
+#### 9. Distributed Request Tracing:
 - Distributed tracing using zipkin & micrometer
+- Trace request flow across services using Zipkin and Micrometer.
+- Gain deep observability into service interactions and performance bottlenecks.
 
 #### 10. ELK Centralized Logging:
 - Centralized logging with the ELK Stack
+- Unified logging across services
+- Real-time log analysis and visualization
 
 
 ### Tech Stack
