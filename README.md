@@ -28,6 +28,15 @@
 #### 7. Fault Tolerance:
 - Implemented **Resilience4j** for circuit breaker, retry mechanisms, and resilience in microservice communication.
 
+#### 8. Config-Server:
+- Implemeted Centralized Configuration Server using Github
+
+#### 9. Request Tracing:
+- Distributed tracing using zipkin & micrometer
+
+#### 10. ELK Centralized Logging:
+- Centralized logging with the ELK Stack
+
 
 ### Tech Stack
 - **Backend**: Spring Boot (Microservices)
@@ -36,3 +45,5 @@
 - **Inter-service Communication**: OpenFeign Client
 - **Fault Tolerance**: Resilience4j
 - **API Gateway**: Spring Cloud Gateway
+- **Tracing**: Zipkin & Micrometer
+- **Logging**: ELK (Elastic Logstash Kibana) Stack
