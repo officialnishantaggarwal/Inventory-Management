@@ -10,7 +10,7 @@ services:
       - ecommerce-network
 
   order-db:
-    image: postgres:15
+    image: postgres
     container_name: order-db
     environment:
       - POSTGRES_DB=orderdb
@@ -22,7 +22,7 @@ services:
       - ecommerce-network
 
   inventory-db:
-    image: postgres:15
+    image: postgres
     container_name: inventory-db
     environment:
       - POSTGRES_DB=inventorydb
@@ -34,7 +34,7 @@ services:
       - ecommerce-network
 
   shipping-db:
-    image: postgres:15
+    image: postgres
     container_name: shipping-db
     environment:
       - POSTGRES_DB=shippingdb
@@ -60,6 +60,10 @@ services:
       - ecommerce-network
     depends_on:
       - discovery-service
+      - zipkin
+      - order-db
+      - inventory-db
+      - shipping-db
 
   inventory-service:
     image: nishant165/inventory-service
