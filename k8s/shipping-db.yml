@@ -25,13 +25,25 @@ spec:
             cpu: "100m"
         env:
           - name: POSTGRES_USER
-            value: "user"
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: SHIPPING_DB_USER
           - name: POSTGRES_PASSWORD
-            value: "password"
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: SHIPPING_DB_PASSWORD
           - name: POSTGRES_DB
-            value: "shippingdb"
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: SHIPPING_DB_NAME
           - name: PGDATA
-            value: /var/lib/postgresql/data/pgdata
+            valueFrom:
+              configMapKeyRef:
+                name: my-config
+                key: PG_DATA
         ports:
         - containerPort: 5432
           name: postgres

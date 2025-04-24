@@ -25,11 +25,20 @@ spec:
           - name: SPRING_PROFILES_ACTIVE
             value: k8s
           - name: DB_USER
-            value: "user"
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: ORDER_DB_USER
           - name: DB_PASSWORD
-            value: "password" 
+            valueFrom:
+              secretKeyRef:
+                name: my-secret
+                key: ORDER_DB_PASSWORD
           - name: DB_SERVICE
-            value: "order-db-service"
+            valueFrom:
+              configMapKeyRef:
+                name: my-config
+                key: ORDER_DB_SERVICE
         ports:
         - containerPort: 9020
 
