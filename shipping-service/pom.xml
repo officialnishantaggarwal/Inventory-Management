@@ -135,6 +135,30 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<!--			With this plugin without running the docker daemon we can push the file -->
+			<!--			to the docker hub if any error docker logout and docker login then run this command-->
+			<!--			(mvn clean package -DskipTests)-->
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.4</version>
+				<configuration>
+					<to>
+						<image>docker.io/nishant165/ecommerce-${project.name}:${project.version}</image>
+						<tags>
+							<tag>latest</tag>
+						</tags>
+					</to>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@FeignClient(name = "Shipping-Service", path = "/shipping")
+@FeignClient(name = "Shipping-Service", path = "/shipping",url = "${SHIPPING_SERVICE_URI:}")
 public interface ShippingOpenFeignClient {
 
     @PostMapping("/status/confirm/{orderId}")
